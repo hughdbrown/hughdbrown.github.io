@@ -4,6 +4,32 @@ date: 2023-04-20T16:24:18-06:00
 draft: false
 ---
 
+# History of code
+Recently, there was a lively debate on [Linkedin](https://www.linkedin.com/groups/25827/?highlightedUpdateUrn=urn%3Ali%3AgroupPost%3A25827-7054576641989070848&q=highlightedFeedForGroups)
+ on how junior, intermediate, senior, and expert python developers might approach a problem and write code for the solution. The gist of it was that 
+a list of tuples, each with a birth year and death year, could be given to a function that converts that into a dictionary that shows, for any
+given year, how many people were alive in that year.
+
+If you were given this data:
+```python
+>>> pop = [(1900, 1910), (1902, 1908), (1904, 1906)]
+
+```
+then the correct result would be:
+```python
+>>> count_living_per_year(pop)
+{1900: 1, 1901: 1,
+1902: 2, 1903: 2,
+1904: 3, 1905: 3,
+1906: 2, 1907: 2,
+1908: 1, 1909: 1}
+```
+
+And there emerged some tnesion between developers who urged the simplest possible algorithm even at the cost of performance and those who preferred a measure of performance even if the method was less clear. You can see various implmentations in [this gist](https://gist.github.com/hughdbrown/ac86c0e0035930ca434fd594c1673888).
+
+For my part, I saw it as a trade-off between these two, and since the simple code is easy to write, I offered up an implementation that was highly performant. And yet I thought it was clear because it was very short and used python library builtins, even if these methods may not be known to all developers. So I set out to explain the decisions in the omplementation.
+
+# Algorithm
 The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
 
 The fastest way to produce the summarized births and deaths is to create two `Counters`, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?
