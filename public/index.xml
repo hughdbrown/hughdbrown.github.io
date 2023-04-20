@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>The new Python Developer</title>
+    <link>https://hugdbrown.github.io/</link>
+    <description>Recent content on The new Python Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 20 Apr 2023 16:24:18 -0600</lastBuildDate><atom:link href="https://hugdbrown.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optimal Python</title>
+      <link>https://hugdbrown.github.io/posts/optimal-python/</link>
+      <pubDate>Thu, 20 Apr 2023 16:24:18 -0600</pubDate>
+      
+      <guid>https://hugdbrown.github.io/posts/optimal-python/</guid>
+      <description>The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
+The fastest way to produce the summarized births and deaths is to create two Counters, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?</description>
+    </item>
+    
+    <item>
+      <title>Amazon scores</title>
+      <link>https://hugdbrown.github.io/posts/amazon-scores/</link>
+      <pubDate>Wed, 08 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hugdbrown.github.io/posts/amazon-scores/</guid>
+      <description>It has kind of bugged me for a while that Amazon uses a weighted average to score products. Really, it’s not how I think of it. The closest thing I have used is to look at how many 1-star ratings there are versus the 5-star ratings, and to divide the 5-star count by the 1-star count. A product that is 50% 5-star and 50% 1-star is a 1 in my books.</description>
+    </item>
+    
+  </channel>
+</rss>

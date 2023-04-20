@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Optimal Python | The new Python Developer</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
+The fastest way to produce the summarized births and deaths is to create two Counters, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?">
+    <meta name="generator" content="Hugo 0.110.0">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="Optimal Python" />
+<meta property="og:description" content="The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
+The fastest way to produce the summarized births and deaths is to create two Counters, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hugdbrown.github.io/posts/optimal-python/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-20T16:24:18-06:00" />
+<meta property="article:modified_time" content="2023-04-20T16:24:18-06:00" />
+<meta itemprop="name" content="Optimal Python">
+<meta itemprop="description" content="The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
+The fastest way to produce the summarized births and deaths is to create two Counters, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?"><meta itemprop="datePublished" content="2023-04-20T16:24:18-06:00" />
+<meta itemprop="dateModified" content="2023-04-20T16:24:18-06:00" />
+<meta itemprop="wordCount" content="487">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Optimal Python"/>
+<meta name="twitter:description" content="The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
+The fastest way to produce the summarized births and deaths is to create two Counters, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?"/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        The new Python Developer
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Optimal Python</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2023-04-20T16:24:18-06:00">April 20, 2023</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.</p>
+<p>The fastest way to produce the summarized births and deaths is to create two <code>Counters</code>, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?</p>
+<p>Yes, we can use the builtin zip to pivot the list of tuples:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>), (<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> b, c <span style="color:#f92672">=</span> zip(<span style="color:#f92672">*</span>a)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> b
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> c
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">6</span>)
+</span></span></code></pre></div><p>Then the births and deaths can be converted into summarized counts:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> Counter
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> births <span style="color:#f92672">=</span> Counter(b)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> deaths <span style="color:#f92672">=</span> Counter(c)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> births
+</span></span><span style="display:flex;"><span>Counter({<span style="color:#ae81ff">1</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5</span>: <span style="color:#ae81ff">1</span>})
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> deaths
+</span></span><span style="display:flex;"><span>Counter({<span style="color:#ae81ff">2</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">6</span>: <span style="color:#ae81ff">1</span>})
+</span></span></code></pre></div><p>Then we want the differences between the births and deaths by year so we can get deltas:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> deltas <span style="color:#f92672">=</span> births
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> deltas<span style="color:#f92672">.</span>subtract(deaths)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> deltas
+</span></span><span style="display:flex;"><span>Counter({<span style="color:#ae81ff">1</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>: <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>: <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">6</span>: <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>})
+</span></span></code></pre></div><p>One of the nice things about <code>Counter.subtract</code> is that it interpolates a value of 0 when the key is missing on the left.</p>
+<p>From here we want to tee up the call to <code>itertools.accumulate</code>, and for that we need the deltas copied to a dense array. There are two general ways of doing this: using an ordered array of indexes with <code>dict.get</code> or using <code>sorted()</code> on the <code>dict.items()</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> itertools <span style="color:#f92672">import</span> accumulate
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> dense <span style="color:#f92672">=</span> [deltas[i] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(min(deltas), max(deltas))]
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> other_dense <span style="color:#f92672">=</span> [v <span style="color:#66d9ef">for</span> _, v <span style="color:#f92672">in</span> sorted(deltas<span style="color:#f92672">.</span>items())]
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> dense
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> other_dense
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span></code></pre></div><p>Because sorting is <code>O(n logn)</code>, we prefer to use the <code>range</code>.</p>
+<p>You can see that using the range drops one of the values, but that is preferred by the OP.</p>
+<p>Now we are ready to use <code>itertools.accumulate</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> summed <span style="color:#f92672">=</span> accumulate(dense)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> summed
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>itertools<span style="color:#f92672">.</span>accumulate object at <span style="color:#ae81ff">0x10b23a600</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> list(summed)
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>]
+</span></span></code></pre></div><p>And we can reconstitute that into a dict in one move:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> dict(enumerate(summed, start<span style="color:#f92672">=</span>min(deltas)))
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">1</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>: <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>: <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>: <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">5</span>: <span style="color:#ae81ff">1</span>}
+</span></span></code></pre></div><p>This works because <code>dict()</code> takes an iterator of key-value tuples and <code>enumerate</code> generates such a series. We pass in a start value so that we do not get a 0-based series but one that starts with the first birth year.</p>
+<p>So here are some things that are helpful to know in the standard library:</p>
+<ul>
+<li><code>zip</code> (especially with the splat-operator)</li>
+<li><code>collections.Counter</code> (which can be constructed from an iterator, unlike <code>collections.defaultdict(int)</code>)</li>
+<li><code>itertools.accumulate</code></li>
+<li><code>enumerate</code> (with its <code>start</code> argument)</li>
+</ul>
+<p>Once we are done, we see that we have cut about 40% of the runtime off the naive implementation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>count_living_per_year1(pop): <span style="color:#ae81ff">2.1835102809709497</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>count_living_per_year6(pop): <span style="color:#ae81ff">1.3067941670306027</span>
+</span></span></code></pre></div><p>The question then is whether 40% is worth it for code that will require explanation for some python programmers.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://hugdbrown.github.io/" >
+    &copy;  The new Python Developer 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
