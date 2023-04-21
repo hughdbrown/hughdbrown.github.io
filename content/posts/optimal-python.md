@@ -27,7 +27,7 @@ then the correct result would be:
 
 And there emerged some tnesion between developers who urged the simplest possible algorithm even at the cost of performance and those who preferred a measure of performance even if the method was less clear. You can see various implmentations in [this gist](https://gist.github.com/hughdbrown/ac86c0e0035930ca434fd594c1673888).
 
-For my part, I saw it as a trade-off between these two, and since the simple code is easy to write, I offered up an implementation that was highly performant. And yet I thought it was clear because it was very short and used python library builtins, even if these methods may not be known to all developers. So I set out to explain the decisions in the omplementation.
+For my part, I saw it as a trade-off between these two, and since the simple code is easy to write, I offered up an implementation that was highly performant. And yet I thought it was clear because it was very short and used python library builtins, even if these methods may not be known to all developers. So I set out to explain the decisions in the implementation (seen in the github gist as versions 5 and 6).
 
 # Algorithm
 The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
