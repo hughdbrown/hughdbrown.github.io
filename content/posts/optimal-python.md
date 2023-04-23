@@ -2,6 +2,7 @@
 title: "Optimal Python"
 date: 2023-04-20T16:24:18-06:00
 draft: false
+summary: "How I think about writing optimal python code"
 ---
 
 # History of code
