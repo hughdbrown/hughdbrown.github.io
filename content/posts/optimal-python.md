@@ -31,11 +31,14 @@ My overall philosophy on fast python code is to have as little interpreted pytho
 In fact, I think the ideal code is devised to hit optimal python builtins and plans the implementation to use those functions.
 
 # Algorithm
-The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
+The plan is:
+- to summarize the births and deaths by year as a year-over-year change;
+- to produce a cumulative sum on that; and
+- to produce a dict of (year, cumulative-sum) pairs.
 
-The fastest way to produce the summarized births and deaths is to create two `Counters`, one for each series. But the data we have is a series of tuples, so is there a fast way to take apart the tuples?
+The fastest way to produce the summarized births and deaths is to create two `Counters`, one for each series. One of the characteristics that makes using a `Counter` desirable is that it can consume an iterable in its initializer. This means we loop in compiled python library code, not in interpreted byte code.
 
-Yes, we can use the builtin zip to pivot the list of tuples:
+But the data we have is a series of tuples. Is there a fast way to take apart the tuples? Yes, we can use the builtin `zip` to pivot the list of tuples:
 
 ```python
 >>> a = [(1, 2), (3, 4), (5, 6)]
