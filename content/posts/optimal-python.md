@@ -6,16 +6,13 @@ summary: "How I think about writing optimal python code"
 ---
 
 # History of code
-Recently, there was a lively debate on [Linkedin](https://www.linkedin.com/groups/25827/?highlightedUpdateUrn=urn%3Ali%3AgroupPost%3A25827-7054576641989070848&q=highlightedFeedForGroups)
- on how junior, intermediate, senior, and expert python developers might approach a problem and write code for the solution. The gist of it was that 
-a list of tuples, each with a birth year and death year, could be given to a function that converts that into a dictionary that shows, for any
-given year, how many people were alive in that year.
+Recently, there was a lively debate on [Linkedin](https://www.linkedin.com/groups/25827/?highlightedUpdateUrn=urn%3Ali%3AgroupPost%3A25827-7054576641989070848&q=highlightedFeedForGroups) on how junior, intermediate, senior, and expert python developers might approach an algorithmic problem and write code for the solution, with the assumption that the code varies by level of experience. The gist of it was that a list of tuples, each representing a person's birth year and death year, could be given to a function that converts that into a dictionary that shows, for any given year, how many people were alive in that year.
 
 If you were given this data:
 ```python
 >>> pop = [(1900, 1910), (1902, 1908), (1904, 1906)]
-
 ```
+
 then the correct result would be:
 ```python
 >>> count_living_per_year(pop)
@@ -26,9 +23,12 @@ then the correct result would be:
 1908: 1, 1909: 1}
 ```
 
-And there emerged some tnesion between developers who urged the simplest possible algorithm even at the cost of performance and those who preferred a measure of performance even if the method was less clear. You can see various implmentations in [this gist](https://gist.github.com/hughdbrown/ac86c0e0035930ca434fd594c1673888).
+For my part, I saw it as a trade-off between performance and simplicity, and since the simple code is easy to write, I offered up an implementation that was highly performant. Even so, I thought the code was clear because it was very short and used python library builtins, even if these methods may not be known to all developers. So I set out to explain the decisions in the implementation (seen in the [github gist](https://gist.github.com/hughdbrown/ac86c0e0035930ca434fd594c1673888) as versions 5 and 6).
 
-For my part, I saw it as a trade-off between these two, and since the simple code is easy to write, I offered up an implementation that was highly performant. And yet I thought it was clear because it was very short and used python library builtins, even if these methods may not be known to all developers. So I set out to explain the decisions in the implementation (seen in the github gist as versions 5 and 6).
+# Python optimization
+My overall philosophy on fast python code is to have as little interpreted python code running as possible. Python byte code executes relatively slowly. Compiled C/C++/Rust code is generally fast, so given a choice between iterating in python or using an equivalent package or standard library builtin, I'll go with the latter.
+
+In fact, I think the ideal code is devised to hit optimal python builtins and plans the implementation to use those functions.
 
 # Algorithm
 The plan is to summarize the births and deaths by year as a year-over-year change; to produce a cumulative sum on that; and to produce a dict of (year, cumulative-sum) pairs.
@@ -67,7 +67,7 @@ Counter({1: 1, 3: 1, 5: 1, 2: -1, 4: -1, 6: -1})
 
 One of the nice things about `Counter.subtract` is that it interpolates a value of 0 when the key is missing on the left.
 
-From here we want to tee up the call to `itertools.accumulate`, and for that we need the deltas copied to a dense array. There are two general ways of doing this: using an ordered array of indexes with `dict.get` or using `sorted()` on the `dict.items()`:
+From here we want to tee up the call to `itertools.accumulate` (a method that generates a running sum from a sequence of numbers), and for that we need the deltas copied to a dense array. There are two general ways of doing this: using an ordered array of indexes with `dict.get` or using `sorted()` on the `dict.items()`.  Because sorting is `O(n logn)`, we prefer to use the `range`:
 ```python
 >>> from itertools import accumulate
 >>> dense = [deltas[i] for i in range(min(deltas), max(deltas))]
@@ -78,11 +78,9 @@ From here we want to tee up the call to `itertools.accumulate`, and for that we 
 [1, -1, 1, -1, 1, -1]
 ```
 
-Because sorting is `O(n logn)`, we prefer to use the `range`.
-
 You can see that using the range drops one of the values, but that is preferred by the OP.
 
-Now we are ready to use `itertools.accumulate`:
+Now we are ready to use `itertools.accumulate`, the cumulative sum function:
 ```python
 >>> summed = accumulate(dense)
 >>> summed
