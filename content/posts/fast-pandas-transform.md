@@ -26,7 +26,7 @@ FROM ZipCodeMapping
 WHERE 12345 BETWEEN LowerZipCode AND UpperZipCode;
 ```
 
-What's a fast way to do this transform?
+What's a fast way to do this transform with python / pandas / jupyter notebook (i.e. a current data science platform)?
 
 The obvious solution is to do a serial lookup into the range for each row. The problem is that this is too slow: it is proportional to the number of rows in the lookup.
 
